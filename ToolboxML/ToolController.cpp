@@ -1,7 +1,7 @@
 #include "ToolController.h"
 
-#include "ToolEvents.h"
 #include "AbstractTool.h"
+#include "ToolEvents.h"
 
 using namespace ToolboxML;
 
@@ -10,6 +10,7 @@ struct ToolController::Private
   AbstractTool* tool = nullptr;
   MouseToolEvent mte;
   WheelToolEvent wte;
+  AbstractViewInterface* viewInterface = nullptr;
 };
 
 ToolController::ToolController(QQuickItem* parent): QQuickItem(parent), d(new Private)
@@ -43,12 +44,34 @@ void ToolController::setTool(AbstractTool* _tool)
   }
 }
 
+AbstractViewInterface * ToolController::viewInterface() const
+{
+  return d->viewInterface;
+}
+
+void ToolController::setViewInterface(AbstractViewInterface* _viewInterface)
+{
+  d->viewInterface = _viewInterface;
+  emit(viewInterfaceChanged());
+}
+
+QObject* ToolController::viewInterfaceASQObject() const
+{
+  return dynamic_cast<QObject*>(d->viewInterface);
+}
+
+void ToolController::setViewInterface(QObject* _object)
+{
+  d->viewInterface = qobject_cast<AbstractViewInterface*>(_object);
+  emit(viewInterfaceChanged());
+}
+
 void ToolController::mouseDoubleClickEvent(QMouseEvent* event)
 {
   if(d->tool)
   {
     event->accept();
-    d->mte.reset(*event);
+    d->mte.reset(*event, d->viewInterface);
     d->tool->mouseDoubleClickEvent(&d->mte);
     event->setAccepted(d->mte.isAccepted());
   } else {
@@ -61,7 +84,7 @@ void ToolController::mouseMoveEvent(QMouseEvent* event)
   if(d->tool)
   {
     event->accept();
-    d->mte.reset(*event);
+    d->mte.reset(*event, d->viewInterface);
     d->tool->mouseMoveEvent(&d->mte);
     event->setAccepted(d->mte.isAccepted());
   } else {
@@ -74,7 +97,7 @@ void ToolController::mousePressEvent(QMouseEvent* event)
   if(d->tool)
   {
     event->accept();
-    d->mte.reset(*event);
+    d->mte.reset(*event, d->viewInterface);
     d->tool->mousePressEvent(&d->mte);
     event->setAccepted(d->mte.isAccepted());
   } else {
@@ -87,7 +110,7 @@ void ToolController::mouseReleaseEvent(QMouseEvent* event)
   if(d->tool)
   {
     event->accept();
-    d->mte.reset(*event);
+    d->mte.reset(*event, d->viewInterface);
     d->tool->mouseReleaseEvent(&d->mte);
     event->setAccepted(d->mte.isAccepted());
   } else {
@@ -100,7 +123,7 @@ void ToolController::wheelEvent(QWheelEvent* event)
   if(d->tool)
   {
     event->accept();
-    d->wte.reset(*event);
+    d->wte.reset(*event, d->viewInterface);
     d->tool->wheelEvent(&d->wte);
     event->setAccepted(d->wte.isAccepted());
   } else {
@@ -113,7 +136,7 @@ void ToolController::hoverEnterEvent(QHoverEvent* event)
   if(d->tool)
   {
     event->accept();
-    d->mte.reset(*event);
+    d->mte.reset(*event, d->viewInterface);
     d->tool->mouseMoveEvent(&d->mte);
     event->setAccepted(d->mte.isAccepted());
   } else {
@@ -126,7 +149,7 @@ void ToolController::hoverLeaveEvent(QHoverEvent* event)
   if(d->tool)
   {
     event->accept();
-    d->mte.reset(*event);
+    d->mte.reset(*event, d->viewInterface);
     d->tool->mouseMoveEvent(&d->mte);
     event->setAccepted(d->mte.isAccepted());
   } else {
@@ -139,7 +162,7 @@ void ToolController::hoverMoveEvent(QHoverEvent* event)
   if(d->tool)
   {
     event->accept();
-    d->mte.reset(*event);
+    d->mte.reset(*event, d->viewInterface);
     d->tool->mouseMoveEvent(&d->mte);
     event->setAccepted(d->mte.isAccepted());
   } else {

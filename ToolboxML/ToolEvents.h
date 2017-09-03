@@ -4,6 +4,8 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 
+#include "AbstractViewInterface.h"
+
 namespace ToolboxML
 {
 
@@ -46,26 +48,38 @@ namespace ToolboxML
       Q_PROPERTY(int modifiers READ modifiers)
       Q_PROPERTY(bool accepted READ isAccepted WRITE setAccepted)
   public:
-      MouseToolEvent() : event(QEvent::None, QPointF(), Qt::NoButton, Qt::NoButton, Qt::NoModifier)
+      MouseToolEvent() : m_pos(QPointF()), m_button(Qt::NoButton), m_buttons(Qt::NoButton), m_modifiers(Qt::NoModifier), m_accepted(false)
       {}
       ~MouseToolEvent() {}
-      void reset(const QMouseEvent& me)
+      void reset(const QMouseEvent& me, const AbstractViewInterface* _interface)
       {
-        event = me;
+        if(_interface) m_pos = _interface->fromView(me.pos());
+        else m_pos = me.pos();
+        m_button = me.button();
+        m_buttons = me.buttons();
+        m_modifiers = me.modifiers();
+        m_accepted = me.isAccepted();
       }
-      void reset(const QHoverEvent& he)
+      void reset(const QHoverEvent& he, const AbstractViewInterface* _interface)
       {
-        event = QMouseEvent(QEvent::MouseMove, he.posF(), Qt::NoButton, Qt::NoButton, he.modifiers());
+        if(_interface) m_pos = _interface->fromView(he.pos());
+        else m_pos = he.pos();
+        m_button = Qt::NoButton;
+        m_buttons = Qt::NoButton;
+        m_modifiers = he.modifiers();
+        m_accepted = he.isAccepted();
       }
-      qreal x() const { return event.x(); }
-      qreal y() const { return event.y(); }
-      int button() const { return event.button(); }
-      int buttons() const { return event.buttons(); }
-      int modifiers() const { return event.modifiers(); }
-      bool isAccepted() { return event.isAccepted(); }
-      void setAccepted(bool accepted) { event.setAccepted(accepted); }
+      qreal x() const { return m_pos.x(); }
+      qreal y() const { return m_pos.y(); }
+      int button() const { return m_button; }
+      int buttons() const { return m_buttons; }
+      int modifiers() const { return m_modifiers; }
+      bool isAccepted() { return m_accepted; }
+      void setAccepted(bool accepted) { m_accepted = accepted; }
   private:
-      QMouseEvent event;
+      QPointF m_pos;
+      int m_button, m_buttons, m_modifiers;
+      bool m_accepted;
   };
   class WheelToolEvent : public QObject
   {
@@ -78,22 +92,31 @@ namespace ToolboxML
       Q_PROPERTY(int modifiers READ modifiers)
       Q_PROPERTY(bool accepted READ isAccepted WRITE setAccepted)
   public:
-      WheelToolEvent() : event(QPointF(), 0, Qt::NoButton, Qt::NoModifier)
+      WheelToolEvent() : m_pos(QPointF()), m_angleDelta(QPoint()), m_pixelDelta(QPoint()), m_buttons(Qt::NoButton), m_modifiers(Qt::NoModifier), m_accepted(false)
       {}
-      void reset(const QWheelEvent& we)
+      void reset(const QWheelEvent& we, const AbstractViewInterface* _interface)
       {
-        event = we;
+        if(_interface) m_pos = _interface->fromView(we.pos());
+        else m_pos = we.pos();
+        m_angleDelta = we.angleDelta();
+        m_pixelDelta = we.pixelDelta();
+        m_buttons = we.buttons();
+        m_modifiers = we.modifiers();
+        m_accepted = we.isAccepted();
       }
-      qreal x() const { return event.x(); }
-      qreal y() const { return event.y(); }
-      QPoint angleDelta() const { return event.angleDelta(); }
-      QPoint pixelDelta() const { return event.pixelDelta(); }
-      int buttons() const { return event.buttons(); }
-      int modifiers() const { return event.modifiers(); }
-      bool isAccepted() { return event.isAccepted(); }
-      void setAccepted(bool accepted) { event.setAccepted(accepted); }
+      qreal x() const { return m_pos.x(); }
+      qreal y() const { return m_pos.y(); }
+      QPoint angleDelta() const { return m_angleDelta; }
+      QPoint pixelDelta() const { return m_pixelDelta; }
+      int buttons() const { return m_buttons; }
+      int modifiers() const { return m_modifiers; }
+      bool isAccepted() { return m_accepted; }
+      void setAccepted(bool accepted) { m_accepted = accepted; }
   private:
-    QWheelEvent event;
+    QPointF m_pos;
+    QPoint m_angleDelta, m_pixelDelta;
+    int m_buttons, m_modifiers;
+    bool m_accepted;
   };
 }
 

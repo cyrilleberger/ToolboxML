@@ -1,5 +1,6 @@
 set(TOOLBOXML_SRCS
   AbstractTool.cpp
+  AbstractViewInterface.cpp
   ProxyTool.cpp
   initialise.cpp
   Tool.cpp
