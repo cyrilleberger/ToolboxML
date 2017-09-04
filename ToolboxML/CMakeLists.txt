@@ -1,3 +1,5 @@
+qt5_add_resources(TOOLBOXML_QRC_SRC ToolboxML.qrc)
+
 set(TOOLBOXML_SRCS
   AbstractTool.cpp
   AbstractViewInterface.cpp
@@ -6,6 +8,7 @@ set(TOOLBOXML_SRCS
   Tool.cpp
   ToolController.cpp
   ToolEvents.cpp
+  ${TOOLBOXML_QRC_SRC}
 )
 
 add_library(ToolboxML SHARED ${TOOLBOXML_SRCS} )

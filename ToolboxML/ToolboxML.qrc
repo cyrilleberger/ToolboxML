@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/">
+    <file>qml/ToolboxML/ToolAction.qml</file>
+    <file>qml/ToolboxML/ToolActionsGroup.qml</file>
+  </qresource>
+</RCC>
+
