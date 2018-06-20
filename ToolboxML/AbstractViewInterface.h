@@ -7,6 +7,9 @@ namespace ToolboxML
   public:
     AbstractViewInterface();
     virtual ~AbstractViewInterface();
+    /**
+     * Convert from document coordinate to view coordinate.
+     */
     virtual QPointF toView(const QPointF& _point) const = 0;
     virtual QPointF fromView(const QPointF& _point) const = 0;
   };

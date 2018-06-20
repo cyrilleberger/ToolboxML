@@ -1,0 +1,28 @@
+# - Config file for the ToolboxML package
+# It defines the following variables
+#  TOOLBOXML_INCLUDE_DIRS - include directories for ToolboxML
+#  TOOLBOXML_LIBRARIES    - libraries to link against
+#  TOOLBOXML_EXECUTABLE   - the bar executable
+ 
+# Compute paths
+get_filename_component(TOOLBOXML_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(TOOLBOXML_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+ 
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET ToolboxMLCore AND NOT ToolboxML_BINARY_DIR)
+  include("${TOOLBOXML_CMAKE_DIR}/ToolboxMLTargets.cmake")
+endif()
+ 
+# These are IMPORTED targets created by ToolboxMLTargets.cmake
+set(TOOLBOXML_LIBRARIES ToolboxML)
+# set(TOOLBOXML_EXECUTABLE bar)
+
+set(TOOLBOXML_FOUND true)
+
+# If your package also provides CMake macros or functions, you might want
+# to put them in a file FooBarUse.cmake (or similar), install it alongside
+# FooBarConfig.cmake and define the variable FOOBAR_USE_FILE in above code
+# and set it to the location of the FooBarUse.cmake file.
+
+find_package(Qt5Quick)
+
