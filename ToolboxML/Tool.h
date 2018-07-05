@@ -9,6 +9,7 @@ namespace ToolboxML
   class Tool : public AbstractTool
   {
     Q_OBJECT
+    Q_PROPERTY(bool propagateEvents READ propagateEvents WRITE setPropagateEvents NOTIFY propagateEventsChanged);
   public:
     Tool(QObject* _parent = 0);
     ~Tool();
@@ -28,6 +29,13 @@ namespace ToolboxML
     void positionChanged(ToolboxML::MouseToolEvent* mouse);
     void released(ToolboxML::MouseToolEvent* mouse);
     void wheel(ToolboxML::WheelToolEvent* wheel);
+  public:
+    bool propagateEvents() const;
+    void setPropagateEvents(bool _v);
+  signals:
+    void propagateEventsChanged();
+  private:
+    bool m_propagateEvents = false;
   };
 }
 
