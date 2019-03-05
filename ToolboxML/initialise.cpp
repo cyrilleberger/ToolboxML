@@ -30,7 +30,11 @@ namespace ToolboxML
     qmlRegisterType<ToolController>     (uri, 1, 0, "ToolController");
     qmlRegisterType<ProxyTool>          (uri, 1, 0, "ProxyTool");
     
-    qmlRegisterType(QUrl("qrc:/qml/ToolboxML/ToolAction.qml"), uri, 1, 0, "ToolAction");
-    qmlRegisterType(QUrl("qrc:/qml/ToolboxML/ToolActionsGroup.qml"), uri, 1, 0, "ToolActionsGroup");
+    const char* uri_controls = "ToolboxML.Controls";
+    qmlRegisterType(QUrl("qrc:/qml/ToolboxML/Controls1/ToolAction.qml"), uri_controls, 1, 0, "ToolAction");
+    qmlRegisterType(QUrl("qrc:/qml/ToolboxML/Controls1/ToolActionsGroup.qml"), uri_controls, 1, 0, "ToolActionsGroup");
+
+    qmlRegisterType(QUrl("qrc:/qml/ToolboxML/Controls2/ToolAction.qml"), uri_controls, 2, 0, "ToolAction");
+    qmlRegisterType(QUrl("qrc:/qml/ToolboxML/Controls2/ToolActionsGroup.qml"), uri_controls, 2, 0, "ToolActionsGroup");
   }
 }
