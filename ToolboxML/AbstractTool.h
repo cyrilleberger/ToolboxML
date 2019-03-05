@@ -18,6 +18,7 @@ namespace ToolboxML
     friend class ToolController;
     friend class ProxyTool;
     Q_OBJECT
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(bool hoverEnabled READ isHoverEnabled WRITE setHoveredEnabled NOTIFY hoverEnabledChanged)
     Q_PROPERTY(QQmlComponent* optionsComponent READ optionsComponent WRITE setOptionsComponent NOTIFY optionsComponentChanged)
     Q_PROPERTY(QQmlComponent* overlayComponent READ overlayComponent WRITE setOverlayComponent NOTIFY overlayComponentChanged)
@@ -32,12 +33,15 @@ namespace ToolboxML
     void setOptionsComponent(QQmlComponent* _component);
     QQmlComponent* overlayComponent() const;
     void setOverlayComponent(QQmlComponent* _component);
+    QString name() const;
+    void setName(const QString& _name);
   signals:
     void hoverEnabledChanged();
     void featuresSourceChanged();
     void optionsComponentChanged();
     void overlayComponentChanged();
     void mapViewChanged();
+    void nameChanged();
   protected:
     virtual void toolActivated();
     virtual void toolDeactivated();

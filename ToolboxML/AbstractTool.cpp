@@ -6,6 +6,7 @@ using namespace ToolboxML;
 
 struct AbstractTool::Private
 {
+  QString name;
   bool hoverEnabled = false;
   QQmlComponent* optionsComponent = nullptr;
   QQmlComponent* overlayComponent = nullptr;
@@ -14,7 +15,7 @@ struct AbstractTool::Private
 
 AbstractTool::AbstractTool(QObject* _parent): QObject(_parent), d(new Private)
 {
-
+  d->name = QObject::tr("unnamed tool");
 }
 
 AbstractTool::~AbstractTool()
@@ -57,6 +58,20 @@ void AbstractTool::wheelEvent(WheelToolEvent* event)
   event->setAccepted(false);
 }
 
+QString AbstractTool::name() const
+{
+  return d->name;
+}
+
+void AbstractTool::setName(const QString& _name)
+{
+  if(d->name != _name)
+  {
+    d->name = _name;
+    emit(nameChanged());
+  }
+}
+
 bool AbstractTool::isHoverEnabled() const
 {
   return d->hoverEnabled;
@@ -64,8 +79,11 @@ bool AbstractTool::isHoverEnabled() const
 
 void AbstractTool::setHoveredEnabled(bool _v)
 {
-  d->hoverEnabled = _v;
-  emit(hoverEnabledChanged());
+  if(d->hoverEnabled != _v)
+  {
+    d->hoverEnabled = _v;
+    emit(hoverEnabledChanged());
+  }
 }
 
 QQmlComponent* AbstractTool::optionsComponent() const
