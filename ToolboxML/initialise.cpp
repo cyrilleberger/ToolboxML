@@ -5,6 +5,7 @@
 #include "ToolEvents.h"
 
 #include "ProxyTool.h"
+#include "ToolAction.h"
 #include "Tool.h"
 #include "ToolController.h"
 
@@ -25,6 +26,7 @@ namespace ToolboxML
     qmlRegisterUncreatableType<WheelToolEvent>(uri, 1, 0, "WheelToolEvent", "Not useful");
     
     qmlRegisterType<Tool>               (uri, 1, 0, "Tool");
+    qmlRegisterType<ToolAction>         (uri, 1, 0, "ToolAction");
     qmlRegisterType<ToolController>     (uri, 1, 0, "ToolController");
     qmlRegisterType<ProxyTool>          (uri, 1, 0, "ProxyTool");
     

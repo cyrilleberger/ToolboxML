@@ -6,6 +6,7 @@ set(TOOLBOXML_SRCS
   ProxyTool.cpp
   initialise.cpp
   Tool.cpp
+  ToolAction.cpp
   ToolController.cpp
   ToolEvents.cpp
   ${TOOLBOXML_QRC_SRC}

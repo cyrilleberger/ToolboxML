@@ -1,5 +1,6 @@
 #include "AbstractTool.h"
 
+#include "ToolAction.h"
 #include "ToolEvents.h"
 
 using namespace ToolboxML;
@@ -11,6 +12,7 @@ struct AbstractTool::Private
   QQmlComponent* optionsComponent = nullptr;
   QQmlComponent* overlayComponent = nullptr;
   QList<QObject*> children;
+  QList<ToolAction*> actions;
 };
 
 AbstractTool::AbstractTool(QObject* _parent): QObject(_parent), d(new Private)
@@ -106,6 +108,31 @@ void AbstractTool::setOverlayComponent(QQmlComponent* _component)
 {
   d->overlayComponent = _component;
   emit(overlayComponentChanged());
+}
+
+QQmlListProperty<ToolAction> AbstractTool::actionsList() const
+{
+  return QQmlListProperty<ToolAction>(const_cast<AbstractTool*>(this), 0, AbstractTool::actions_append, AbstractTool::actions_count, AbstractTool::actions_at, AbstractTool::actions_clear);
+}
+
+void AbstractTool::actions_append(QQmlListProperty<ToolAction>* _list, ToolAction* _layer)
+{
+  qobject_cast<AbstractTool*>(_list->object)->d->actions.append(_layer);
+}
+
+int AbstractTool::actions_count(QQmlListProperty<ToolAction>* _list)
+{
+  return qobject_cast<AbstractTool*>(_list->object)->d->actions.size();
+}
+
+ToolAction * AbstractTool::actions_at(QQmlListProperty<ToolAction>* _list, int _index)
+{
+  return qobject_cast<AbstractTool*>(_list->object)->d->actions.at(_index);
+}
+
+void AbstractTool::actions_clear(QQmlListProperty<ToolAction>* _list)
+{
+  qobject_cast<AbstractTool*>(_list->object)->d->actions.clear();
 }
 
 QQmlListProperty<QObject> AbstractTool::childrenList() const

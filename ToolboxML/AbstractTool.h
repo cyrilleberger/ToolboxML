@@ -8,6 +8,7 @@ class QQmlComponent;
 
 namespace ToolboxML
 {
+  class ToolAction;
   class MouseToolEvent;
   class ProxyTool;
   class ToolController;
@@ -22,6 +23,7 @@ namespace ToolboxML
     Q_PROPERTY(bool hoverEnabled READ isHoverEnabled WRITE setHoveredEnabled NOTIFY hoverEnabledChanged)
     Q_PROPERTY(QQmlComponent* optionsComponent READ optionsComponent WRITE setOptionsComponent NOTIFY optionsComponentChanged)
     Q_PROPERTY(QQmlComponent* overlayComponent READ overlayComponent WRITE setOverlayComponent NOTIFY overlayComponentChanged)
+    Q_PROPERTY(QQmlListProperty<ToolboxML::ToolAction> actions READ actionsList)
     Q_PROPERTY(QQmlListProperty<QObject> children READ childrenList)
     Q_CLASSINFO("DefaultProperty", "children")
   public:
@@ -50,6 +52,12 @@ namespace ToolboxML
     virtual void mousePressEvent(MouseToolEvent* event);
     virtual void mouseReleaseEvent(MouseToolEvent* event);
     virtual void wheelEvent(WheelToolEvent* event);
+  private:
+    QQmlListProperty<ToolAction> actionsList() const;
+    static void actions_append(QQmlListProperty<ToolAction>* _list, ToolAction* _layer);
+    static int actions_count(QQmlListProperty<ToolAction>* _list);
+    static ToolAction* actions_at(QQmlListProperty<ToolAction>* _list, int _index);
+    static void actions_clear(QQmlListProperty<ToolAction>* _list);
   private:
     QQmlListProperty<QObject> childrenList() const;
     static void children_append(QQmlListProperty<QObject>* _list, QObject* _layer);
