@@ -7,6 +7,7 @@ struct ToolAction::Private
   QString text, icon;
   bool checkable  = false;
   bool checked    = false;
+  bool enabled    = true;
 };
 
 ToolAction::ToolAction(QObject* _parent) : QObject(_parent), d(new Private)
@@ -71,6 +72,20 @@ void ToolAction::setChecked(bool _checked)
   {
     d->checked = _checked;
     emit(checkedChanged());
+  }
+}
+
+bool ToolAction::isEnabled() const
+{
+  return d->enabled;
+}
+
+void ToolAction::setEnabled(bool _enabled)
+{
+  if(d->enabled != _enabled)
+  {
+    d->enabled = _enabled;
+    emit(enabledChanged());
   }
 }
 

@@ -11,6 +11,7 @@ namespace ToolboxML
     Q_PROPERTY(QString icon READ icon WRITE setIcon NOTIFY iconChanged)
     Q_PROPERTY(bool checkable READ isCheckable WRITE setCheckable NOTIFY checkableChanged)
     Q_PROPERTY(bool checked READ isChecked WRITE setChecked NOTIFY checkedChanged)
+    Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged)
   public:
     ToolAction(QObject* _parent = nullptr);
     ~ToolAction();
@@ -23,11 +24,15 @@ namespace ToolboxML
     void setCheckable(bool _v);
     bool isChecked() const;
     void setChecked(bool _v);
+    bool isEnabled() const;
+    void setEnabled(bool _v);
   signals:
     void textChanged();
     void iconChanged();
     void checkableChanged();
     void checkedChanged();
+    void enabledChanged();
+    void triggered();
   private:
     struct Private;
     Private* const d;
