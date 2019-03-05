@@ -23,7 +23,7 @@ namespace ToolboxML
     Q_PROPERTY(bool hoverEnabled READ isHoverEnabled WRITE setHoveredEnabled NOTIFY hoverEnabledChanged)
     Q_PROPERTY(QQmlComponent* optionsComponent READ optionsComponent WRITE setOptionsComponent NOTIFY optionsComponentChanged)
     Q_PROPERTY(QQmlComponent* overlayComponent READ overlayComponent WRITE setOverlayComponent NOTIFY overlayComponentChanged)
-    Q_PROPERTY(QQmlListProperty<ToolboxML::ToolAction> actions READ actionsList)
+    Q_PROPERTY(QQmlListProperty<ToolboxML::ToolAction> actions READ actionsList NOTIFY actionsChanged)
     Q_PROPERTY(QQmlListProperty<QObject> children READ childrenList)
     Q_CLASSINFO("DefaultProperty", "children")
   public:
@@ -44,6 +44,7 @@ namespace ToolboxML
     void overlayComponentChanged();
     void mapViewChanged();
     void nameChanged();
+    void actionsChanged();
   protected:
     virtual void toolActivated();
     virtual void toolDeactivated();
